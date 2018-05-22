@@ -1,0 +1,28 @@
+version: "2"
+services:
+  application:
+    build:
+      context: ../../
+      dockerfile: ./automation/docker/elixir/Dockerfile
+    command: mix do ecto.create, ecto.migrate, phx.server
+    environment:
+      DATABASE_HOSTNAME: postgres
+      DATABASE_PASSWORD: postgres
+    restart: always
+    expose:
+      - "4000"
+    ports:
+      - 80:4000
+    links:
+      - postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:9.6-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    expose:
+      - "5432"
