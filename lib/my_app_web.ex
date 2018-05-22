@@ -22,7 +22,6 @@ defmodule MyAppWeb do
       use Phoenix.Controller, namespace: MyAppWeb
       import Plug.Conn
       import MyAppWeb.Router.Helpers
-      import MyAppWeb.Gettext
     end
   end
 
@@ -36,8 +35,6 @@ defmodule MyAppWeb do
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
 
       import MyAppWeb.Router.Helpers
-      import MyAppWeb.ErrorHelpers
-      import MyAppWeb.Gettext
     end
   end
 
@@ -46,13 +43,6 @@ defmodule MyAppWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
-    end
-  end
-
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import MyAppWeb.Gettext
     end
   end
 
