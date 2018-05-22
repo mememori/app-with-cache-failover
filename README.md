@@ -1,4 +1,5 @@
 # App With Cache Failover
+[![Build Status](https://travis-ci.org/mememori/app-with-cache-failover.svg?branch=master)](https://travis-ci.org/mememori/app-with-cache-failover)
 
 ## About
 Just a simple Phoenix WebApp with a cache layer (Redis) that handles cache unavailabity.
