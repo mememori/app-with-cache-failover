@@ -35,7 +35,7 @@ sudo docker-compose -f "automation/docker/docker-compose.yml" up
 
 ### Testing the codebase
 ```bash
-sudo docker-compose -f "automation/docker/docker-compose.yml" run --rm application mix test
+sudo docker-compose -f "automation/docker/docker-compose.yml" run application mix test
 ```
 
 ## License
