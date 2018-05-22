@@ -14,7 +14,8 @@ defmodule MyApp.Mixfile do
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
-        "coveralls.html": :test
+        "coveralls.html": :test,
+        "inch.report": :dev
       ],
       aliases: aliases(),
       deps: deps()
@@ -46,7 +47,8 @@ defmodule MyApp.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:excoveralls, "~> 0.8", only: :test}
+      {:excoveralls, "~> 0.8", only: :test},
+      {:inch_ex, ">= 0.0.0", only: :dev}
     ]
   end
 
