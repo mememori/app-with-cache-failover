@@ -12,6 +12,9 @@ script:
   - mix ecto.migrate
   - mix test
   - mix coveralls.travis
+after_script:
+  - MIX_ENV=dev mix deps.get
+  - MIX_ENV=dev mix inch.report
 services:
   - postgresql
 addons:
