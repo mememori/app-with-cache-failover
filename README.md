@@ -1,5 +1,5 @@
 # App With Cache Failover
-[![Build Status](https://travis-ci.org/mememori/app-with-cache-failover.svg?branch=master)](https://travis-ci.org/mememori/app-with-cache-failover)[![Ebert](https://ebertapp.io/github/mememori/app-with-cache-failover.svg)](https://ebertapp.io/github/mememori/app-with-cache-failover)
+[![Build Status](https://travis-ci.org/mememori/app-with-cache-failover.svg?branch=master)](https://travis-ci.org/mememori/app-with-cache-failover)[![Coverage Status](https://coveralls.io/repos/github/mememori/app-with-cache-failover/badge.svg?branch=master)](https://coveralls.io/github/mememori/app-with-cache-failover?branch=master)[![Ebert](https://ebertapp.io/github/mememori/app-with-cache-failover.svg)](https://ebertapp.io/github/mememori/app-with-cache-failover)
 
 ## About
 Just a simple Phoenix WebApp with a cache layer (Redis) that handles cache unavailabity.
