@@ -8,6 +8,8 @@ defmodule MyAppWeb.Router do
   scope "/api", MyAppWeb do
     pipe_through(:api)
 
-    resources "/customer_profiles", ProfileController, except: [:new, :edit]
+    get("/customers", ProfileController, :index)
+    post("/customers", ProfileController, :create_many)
+    delete("/customers", ProfileController, :delete_all)
   end
 end

@@ -58,6 +58,50 @@ defmodule MyApp.Customer do
     |> Repo.insert()
   end
 
+  @spec create_many_profiles([map]) :: {:ok, [Profile.t()]} | {:error, [Profile.changeset()]}
+  @doc """
+  Creates several profiles at once.
+
+  This operation is atomic.
+
+  On error, only the invalid changesets are returned.
+
+  ## Examples
+
+      iex> create_many_profiles([
+      ...>   %{name: "Roberval Santos", age: 32},
+      ...>   %{name: "Levandovski Dmitri de Jesus", age: 41}
+      ...> ])
+      {:ok, [%Profile{}, %Profile{}]}
+
+      iex> create_many_profiles([
+      ...>   %{name: "Weeabito Brasil", age: 21},
+      ...>   %{name: "Invalidilson", age: -21}
+      ...> ])
+      {:error, [%Ecto.Changeset{}]}
+  """
+  def create_many_profiles(attr_list) do
+    changesets = Enum.map(attr_list, &Profile.create/1)
+
+    Repo.transaction(fn ->
+      unless Enum.all?(changesets, & &1.valid?) do
+        bad_changesets = Enum.filter(changesets, &(not &1.valid?))
+
+        Repo.rollback(bad_changesets)
+      end
+
+      for changeset <- changesets do
+        case Repo.insert(changeset) do
+          {:ok, profile} ->
+            profile
+
+          {:error, changeset} ->
+            Repo.rollback([changeset])
+        end
+      end
+    end)
+  end
+
   @spec update_profile(Profile.t(), map) :: {:ok, Profile.t()} | {:error, Profile.changeset()}
   @doc """
   Updates a profile.
