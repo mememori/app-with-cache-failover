@@ -84,20 +84,20 @@ defmodule MyApp.Customer do
     changesets = Enum.map(attr_list, &Profile.create/1)
 
     Repo.transaction(fn ->
-      unless Enum.all?(changesets, & &1.valid?) do
-        bad_changesets = Enum.filter(changesets, &(not &1.valid?))
-
-        Repo.rollback(bad_changesets)
-      end
-
-      for changeset <- changesets do
-        case Repo.insert(changeset) do
+      results = Enum.reduce(changesets, {[], []}, fn el, {success, fail} ->
+        case Repo.insert(el) do
           {:ok, profile} ->
-            profile
-
+            {[profile| success], fail}
           {:error, changeset} ->
-            Repo.rollback([changeset])
+            {success, [changeset| fail]}
         end
+      end)
+
+      case results do
+        {successes, []} ->
+          successes
+        {_, failures} ->
+          Repo.rollback(failures)
       end
     end)
   end
