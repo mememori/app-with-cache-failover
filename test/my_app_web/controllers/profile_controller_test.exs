@@ -72,4 +72,19 @@ defmodule MyAppWeb.ProfileControllerTest do
       assert Customer.list_customer_profiles() == []
     end
   end
+
+  describe "delete_all" do
+    test "removes all existing profiles", %{conn: conn} do
+      fixture(:profile)
+      fixture(:profile)
+
+      assert [_, _] = Customer.list_customer_profiles()
+      conn = delete(conn, profile_path(conn, :delete_all))
+
+      # No content
+      assert response(conn, 204)
+
+      assert [] = Customer.list_customer_profiles()
+    end
+  end
 end
