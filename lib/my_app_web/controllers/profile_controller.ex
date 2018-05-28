@@ -20,7 +20,7 @@ defmodule MyAppWeb.ProfileController do
       {:error, changesets} ->
         conn
         |> put_status(:bad_request)
-        |> render("create_many_failed.json", changesets: changesets)
+        |> render("create_many-failed.json", changesets: changesets)
     end
   end
 

@@ -84,20 +84,25 @@ defmodule MyApp.Customer do
     changesets = Enum.map(attr_list, &Profile.create/1)
 
     Repo.transaction(fn ->
-      results = Enum.reduce(changesets, {[], []}, fn el, {success, fail} ->
-        case Repo.insert(el) do
-          {:ok, profile} ->
-            {[profile| success], fail}
-          {:error, changeset} ->
-            {success, [changeset| fail]}
-        end
-      end)
+      results =
+        Enum.reduce(changesets, {[], []}, fn el, {success, fail} ->
+          case Repo.insert(el) do
+            {:ok, profile} ->
+              {[profile | success], fail}
+
+            {:error, changeset} ->
+              {success, [changeset | fail]}
+          end
+        end)
 
       case results do
         {successes, []} ->
-          successes
+          Enum.reverse(successes)
+
         {_, failures} ->
-          Repo.rollback(failures)
+          failures
+          |> Enum.reverse()
+          |> Repo.rollback()
       end
     end)
   end
