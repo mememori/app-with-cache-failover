@@ -5,8 +5,8 @@ defmodule MyApp.Customer.Profile do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "customer_profiles" do
-    field(:age, :string)
     field(:name, :string)
+    field(:age, :integer)
 
     timestamps()
   end

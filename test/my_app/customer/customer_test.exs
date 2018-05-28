@@ -6,8 +6,8 @@ defmodule MyApp.CustomerTest do
   describe "customer_profiles" do
     alias MyApp.Customer.Profile
 
-    @valid_attrs %{age: "some age", name: "some name"}
-    @update_attrs %{age: "some updated age", name: "some updated name"}
+    @valid_attrs %{age: 18, name: "some name"}
+    @update_attrs %{age: 21, name: "some updated name"}
     @invalid_attrs %{age: nil, name: nil}
 
     def profile_fixture(attrs \\ %{}) do
@@ -31,7 +31,7 @@ defmodule MyApp.CustomerTest do
 
     test "create_profile/1 with valid data creates a profile" do
       assert {:ok, %Profile{} = profile} = Customer.create_profile(@valid_attrs)
-      assert profile.age == "some age"
+      assert profile.age == 18
       assert profile.name == "some name"
     end
 
@@ -43,7 +43,7 @@ defmodule MyApp.CustomerTest do
       profile = profile_fixture()
       assert {:ok, profile} = Customer.update_profile(profile, @update_attrs)
       assert %Profile{} = profile
-      assert profile.age == "some updated age"
+      assert profile.age == 21
       assert profile.name == "some updated name"
     end
 
