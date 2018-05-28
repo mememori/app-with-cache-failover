@@ -3,8 +3,6 @@ defmodule MyAppWeb.ProfileController do
 
   alias MyApp.Customer
 
-  action_fallback(MyAppWeb.FallbackController)
-
   def index(conn, _params) do
     customer_profiles = Customer.list_customer_profiles()
     render(conn, "index.json", profiles: customer_profiles)
