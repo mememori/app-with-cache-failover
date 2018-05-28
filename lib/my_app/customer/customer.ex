@@ -80,29 +80,17 @@ defmodule MyApp.Customer do
       ...> ])
       {:error, [%Ecto.Changeset{}]}
   """
-  def create_many_profiles(attr_list) do
-    changesets = Enum.map(attr_list, &Profile.create/1)
-
+  def create_many_profiles(input_list) do
     Repo.transaction(fn ->
       results =
-        Enum.reduce(changesets, {[], []}, fn el, {success, fail} ->
-          case Repo.insert(el) do
-            {:ok, profile} ->
-              {[profile | success], fail}
+        input_list
+        |> Enum.map(&create_profile/1)
+        |> Enum.group_by(fn {status, _} -> status end, fn {_, data} -> data end)
 
-            {:error, changeset} ->
-              {success, [changeset | fail]}
-          end
-        end)
-
-      case results do
-        {successes, []} ->
-          Enum.reverse(successes)
-
-        {_, failures} ->
-          failures
-          |> Enum.reverse()
-          |> Repo.rollback()
+      if Map.has_key?(results, :error) do
+        Repo.rollback(results.error)
+      else
+        List.wrap(results[:ok])
       end
     end)
   end
