@@ -7,5 +7,7 @@ defmodule MyAppWeb.Router do
 
   scope "/api", MyAppWeb do
     pipe_through(:api)
+
+    resources "/customer_profiles", ProfileController, except: [:new, :edit]
   end
 end
