@@ -2,6 +2,7 @@ defmodule MyApp.CustomerTest do
   use MyApp.DataCase
 
   alias MyApp.Customer
+  alias MyApp.Repo
 
   describe "customer_profiles" do
     alias MyApp.Customer.Profile
@@ -57,6 +58,17 @@ defmodule MyApp.CustomerTest do
       profile = profile_fixture()
       assert {:ok, %Profile{}} = Customer.delete_profile(profile)
       assert_raise Ecto.NoResultsError, fn -> Customer.get_profile!(profile.id) end
+    end
+
+    test "delete_all_profiles/0 deletes all profiles from db" do
+      profile_fixture()
+      profile_fixture()
+      profile_fixture()
+
+      assert Repo.aggregate(Profile, :count, :id) == 3
+      assert Customer.delete_all_profiles() == {:ok, 3}
+      assert Repo.aggregate(Profile, :count, :id) == 0
+      assert Customer.delete_all_profiles() == {:ok, 0}
     end
   end
 end

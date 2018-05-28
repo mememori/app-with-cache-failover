@@ -93,4 +93,24 @@ defmodule MyApp.Customer do
   def delete_profile(profile) do
     Repo.delete(profile)
   end
+
+  @spec delete_all_profiles() :: {:ok, non_neg_integer}
+  @doc """
+  Deletes all existing profiles.
+
+  Note that this is a destructive operation that will just cause havoc and
+  should never be used in the real world...
+
+  This function returns the amount of profiles deleted.
+
+  ## Examples
+
+      iex> delete_all_profiles()
+      {:ok, 123}
+  """
+  def delete_all_profiles do
+    {n, _} = Repo.delete_all(Profile)
+
+    {:ok, n}
+  end
 end
