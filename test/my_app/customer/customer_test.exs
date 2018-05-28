@@ -40,6 +40,20 @@ defmodule MyApp.CustomerTest do
       assert {:error, %Ecto.Changeset{}} = Customer.create_profile(@invalid_attrs)
     end
 
+    test "create_many_profiles/1 supplied with valid data will create several profiles" do
+      params = [@valid_attrs, @valid_attrs, @valid_attrs]
+
+      assert {:ok, [%Profile{}, %Profile{}, %Profile{}]} = Customer.create_many_profiles(params)
+      assert Repo.aggregate(Profile, :count, :id) == 3
+    end
+
+    test "create_many_profiles/1 is atomic and will return only changesets of invalid data" do
+      params = [@valid_attrs, @valid_attrs, @invalid_attrs]
+
+      assert {:error, [%Ecto.Changeset{}]} = Customer.create_many_profiles(params)
+      assert Repo.aggregate(Profile, :count, :id) == 0
+    end
+
     test "update_profile/2 with valid data updates the profile" do
       profile = profile_fixture()
       assert {:ok, profile} = Customer.update_profile(profile, @update_attrs)

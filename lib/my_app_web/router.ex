@@ -7,5 +7,9 @@ defmodule MyAppWeb.Router do
 
   scope "/api", MyAppWeb do
     pipe_through(:api)
+
+    get("/customers", ProfileController, :index)
+    post("/customers", ProfileController, :create_many)
+    delete("/customers", ProfileController, :delete_all)
   end
 end
