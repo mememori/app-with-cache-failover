@@ -58,10 +58,5 @@ defmodule MyApp.CustomerTest do
       assert {:ok, %Profile{}} = Customer.delete_profile(profile)
       assert_raise Ecto.NoResultsError, fn -> Customer.get_profile!(profile.id) end
     end
-
-    test "change_profile/1 returns a profile changeset" do
-      profile = profile_fixture()
-      assert %Ecto.Changeset{} = Customer.change_profile(profile)
-    end
   end
 end

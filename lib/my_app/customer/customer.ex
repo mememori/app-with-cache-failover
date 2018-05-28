@@ -4,10 +4,11 @@ defmodule MyApp.Customer do
   """
 
   import Ecto.Query, warn: false
-  alias MyApp.Repo
 
   alias MyApp.Customer.Profile
+  alias MyApp.Repo
 
+  @spec list_customer_profiles() :: [Profile.t()]
   @doc """
   Returns the list of customer_profiles.
 
@@ -21,6 +22,7 @@ defmodule MyApp.Customer do
     Repo.all(Profile)
   end
 
+  @spec get_profile!(Profile.id()) :: Profile.t() | no_return
   @doc """
   Gets a single profile.
 
@@ -28,15 +30,16 @@ defmodule MyApp.Customer do
 
   ## Examples
 
-      iex> get_profile!(123)
+      iex> get_profile!("123-456-789")
       %Profile{}
 
-      iex> get_profile!(456)
+      iex> get_profile!("000-000-000")
       ** (Ecto.NoResultsError)
 
   """
   def get_profile!(id), do: Repo.get!(Profile, id)
 
+  @spec create_profile(map) :: {:ok, Profile.t()} | {:error, Profile.changeset()}
   @doc """
   Creates a profile.
 
@@ -49,12 +52,13 @@ defmodule MyApp.Customer do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_profile(attrs \\ %{}) do
-    %Profile{}
-    |> Profile.changeset(attrs)
+  def create_profile(attrs) do
+    attrs
+    |> Profile.create()
     |> Repo.insert()
   end
 
+  @spec update_profile(Profile.t(), map) :: {:ok, Profile.t()} | {:error, Profile.changeset()}
   @doc """
   Updates a profile.
 
@@ -67,12 +71,13 @@ defmodule MyApp.Customer do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_profile(%Profile{} = profile, attrs) do
+  def update_profile(profile, attrs) do
     profile
-    |> Profile.changeset(attrs)
+    |> Profile.update(attrs)
     |> Repo.update()
   end
 
+  @spec delete_profile(Profile.t()) :: {:ok, Profile.t()} | {:error, Profile.changeset()}
   @doc """
   Deletes a Profile.
 
@@ -85,20 +90,7 @@ defmodule MyApp.Customer do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_profile(%Profile{} = profile) do
+  def delete_profile(profile) do
     Repo.delete(profile)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking profile changes.
-
-  ## Examples
-
-      iex> change_profile(profile)
-      %Ecto.Changeset{source: %Profile{}}
-
-  """
-  def change_profile(%Profile{} = profile) do
-    Profile.changeset(profile, %{})
   end
 end

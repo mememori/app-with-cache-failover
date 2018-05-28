@@ -135,13 +135,6 @@ defmodule MyApp.Customer.Profile do
     |> Map.put(:action, :update)
   end
 
-  @doc false
-  def changeset(profile, attrs) do
-    profile
-    |> cast(attrs, [:name, :age])
-    |> validate_required([:name, :age])
-  end
-
   @spec validate_changeset(changeset) :: changeset
   defp validate_changeset(changeset) do
     changeset
